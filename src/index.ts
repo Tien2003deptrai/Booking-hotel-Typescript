@@ -6,6 +6,8 @@ import compression from 'compression';
 import cors from 'cors';
 import routers from './routers';
 import { connection } from './config/database';
+import expressListEndpoints from "express-list-endpoints";
+
 const app = express();
 
 require('dotenv').config();
@@ -43,4 +45,6 @@ const server = http.createServer(app);
 
 server.listen(8080, () => {
     console.log('Server started on port 8080');
+    const endpoints = expressListEndpoints(app);
+    console.log('Endpoints:', endpoints);
 })
