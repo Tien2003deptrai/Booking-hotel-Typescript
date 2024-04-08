@@ -12,7 +12,7 @@ class AdminActions {
             const results = await _config.executeQuery(sql);
             _config.sendResponseSuccess(response, results)
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -22,7 +22,7 @@ class AdminActions {
             const results = await _config.executeQuery(sql);
             _config.sendResponseSuccess(response, results);
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -32,7 +32,7 @@ class AdminActions {
             const results = await _config.executeQuery(sql);
             _config.sendResponseSuccess(response, results);
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -43,7 +43,7 @@ class AdminActions {
             const results = await _config.executeQuery(sql, [cust_id]);
             _config.sendResponseSuccess(response, results);
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -53,7 +53,7 @@ class AdminActions {
             const results = await _config.executeQuery(sql);
             _config.sendResponseSuccess(response, results);
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -65,7 +65,7 @@ class AdminActions {
             await _config.executeQuery(sql, data, QueryTypes.INSERT);
             _config.sendResponseSuccess(response, 'Add new room successfully');
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -77,7 +77,7 @@ class AdminActions {
             await _config.executeQuery(sql, data, QueryTypes.INSERT);
             _config.sendResponseSuccess(response, 'Add facilities successfully');
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -97,7 +97,7 @@ class AdminActions {
             await _config.executeQuery(sql, data, QueryTypes.UPDATE);
             _config.sendResponseSuccess(response, 'Update hotel successfully')
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -110,7 +110,7 @@ class AdminActions {
             await _config.executeQuery(sql, data, QueryTypes.UPDATE);
             _config.sendResponseSuccess(response, 'Update room cost successfully');
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
@@ -122,7 +122,7 @@ class AdminActions {
             await _config.executeQuery(sql, [facility_id], QueryTypes.DELETE);
             _config.sendResponseSuccess(response, 'Delete facility successfully');
         } catch (error) {
-            _config.sendResponseError(response, 'Internal Server Error');
+            _config.sendResponseErrorServer(response);
         }
     }
 
