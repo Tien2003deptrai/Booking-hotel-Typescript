@@ -1,15 +1,15 @@
 import { RequestHandler } from "express";
-import { QueryTypes } from "sequelize";
+import AdminActionsService from "../services/AdminActions.service";
 import * as _model from '../models/config';
 import * as _config from "../config";
 
 // ! Admin
 // GET
-class AdminActions {
+class AdminActionsController {
+
     getHotelDetails: RequestHandler = async (request, response) => {
         try {
-            const sql = 'SELECT * FROM hotel';
-            const results = await _config.executeQuery(sql);
+            const results = await AdminActionsService.getAllHotels();
             _config.sendResponseSuccess(response, results)
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -18,8 +18,7 @@ class AdminActions {
 
     getRomeTypes: RequestHandler = async (request, response) => {
         try {
-            const sql = 'SELECT * FROM room_type';
-            const results = await _config.executeQuery(sql);
+            const results = await AdminActionsService.getAllRoomTypes();
             _config.sendResponseSuccess(response, results);
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -28,8 +27,7 @@ class AdminActions {
 
     getFacilities: RequestHandler = async (request, response) => {
         try {
-            const sql = 'SELECT * FROM facilities';
-            const results = await _config.executeQuery(sql);
+            const results = await AdminActionsService.getAllFacilities();
             _config.sendResponseSuccess(response, results);
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -39,8 +37,7 @@ class AdminActions {
     getReservationsById: RequestHandler = async (request, response) => {
         try {
             const { cust_id } = request.params;
-            const sql = 'SELECT * FROM reservation WHERE cust_id = ?';
-            const results = await _config.executeQuery(sql, [cust_id]);
+            const results = await AdminActionsService.getReservationsByCustomerId(parseInt(cust_id));
             _config.sendResponseSuccess(response, results);
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -49,8 +46,7 @@ class AdminActions {
 
     getBookings: RequestHandler = async (request, response) => {
         try {
-            const sql = 'SELECT * FROM reservation ORDER BY booking_date';
-            const results = await _config.executeQuery(sql);
+            const results = await AdminActionsService.getAllBookings();
             _config.sendResponseSuccess(response, results);
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -60,9 +56,7 @@ class AdminActions {
     addNewRoom: RequestHandler = async (request, response) => {
         try {
             const newRoom: _model.Room = request.body;
-            const data = [newRoom.type_id, newRoom.facility_id, newRoom.status_id, newRoom.hotel_id, newRoom.images];
-            const sql = 'INSERT INTO room (type_id, facility_id, status_id, hotel_id, images) VALUES (?, ?, ?, ?, ?)';
-            await _config.executeQuery(sql, data, QueryTypes.INSERT);
+            await AdminActionsService.addNewRoom(newRoom);
             _config.sendResponseSuccess(response, 'Add new room successfully');
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -72,9 +66,7 @@ class AdminActions {
     addFacility: RequestHandler = async (request, response) => {
         try {
             const newFacility: _model.Facilities = request.body;
-            const data = [newFacility.facility, newFacility.facility_cost];
-            const sql = 'INSERT INTO facilities (facility, facility_cost) VALUES (?, ?)';
-            await _config.executeQuery(sql, data, QueryTypes.INSERT);
+            await AdminActionsService.addFacility(newFacility);
             _config.sendResponseSuccess(response, 'Add facilities successfully');
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -88,14 +80,8 @@ class AdminActions {
         try {
             const { hotel_id } = request.params;
             const updateHotel: _model.Hotel = request.body;
-            const data = [
-                updateHotel.hotel_name, updateHotel.hotel_addr,
-                updateHotel.hotel_email, updateHotel.hotel_phone,
-                hotel_id
-            ]
-            const sql = 'UPDATE hotel SET hotel_name = ?, hotel_addr = ?, hotel_email = ?, hotel_phone = ? WHERE hotel_id = ?';
-            await _config.executeQuery(sql, data, QueryTypes.UPDATE);
-            _config.sendResponseSuccess(response, 'Update hotel successfully')
+            await AdminActionsService.editHotelById(parseInt(hotel_id), updateHotel);
+            _config.sendResponseSuccess(response, 'Update hotel successfully');
         } catch (error) {
             _config.sendResponseErrorServer(response);
         }
@@ -105,9 +91,7 @@ class AdminActions {
         try {
             const { type_id } = request.params;
             const updateRoomCost: _model.RoomType = request.body;
-            const data = [updateRoomCost.cost, type_id];
-            const sql = 'UPDATE room_type SET cost = ? WHERE type_id = ?';
-            await _config.executeQuery(sql, data, QueryTypes.UPDATE);
+            await AdminActionsService.editRoomsCostById(parseInt(type_id), updateRoomCost);
             _config.sendResponseSuccess(response, 'Update room cost successfully');
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -118,8 +102,7 @@ class AdminActions {
     deleteFacilitiesById: RequestHandler = async (request, response) => {
         try {
             const { facility_id } = request.params;
-            const sql = 'DELETE FROM facilities WHERE facility_id = ?';
-            await _config.executeQuery(sql, [facility_id], QueryTypes.DELETE);
+            await AdminActionsService.deleteFacilityById(parseInt(facility_id));
             _config.sendResponseSuccess(response, 'Delete facility successfully');
         } catch (error) {
             _config.sendResponseErrorServer(response);
@@ -128,7 +111,7 @@ class AdminActions {
 
 }
 
-export default new AdminActions();
+export default new AdminActionsController();
 
 
 

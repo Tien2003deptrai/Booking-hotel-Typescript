@@ -1,33 +1,33 @@
 import { Router } from "express";
 import AuthMiddleware from "../middlewares/AuthMiddleware";
 import AdminController from "../controllers/AdminController";
-import AdminActions from "../controllers/AdminActionsController";
+import AdminActionsController from "../controllers/AdminActionsController";
 
 const router = Router();
 
 // Router GET
-router.get('/hotel/details', AuthMiddleware.verifyToken, AdminActions.getHotelDetails);
+router.get('/hotel/details', AuthMiddleware.verifyToken, AdminActionsController.getHotelDetails);
 
-router.get('/room_types', AuthMiddleware.verifyToken, AdminActions.getRomeTypes);
+router.get('/room_types', AuthMiddleware.verifyToken, AdminActionsController.getRomeTypes);
 
-router.get('/facilities', AuthMiddleware.verifyToken, AdminActions.getFacilities);
+router.get('/facilities', AuthMiddleware.verifyToken, AdminActionsController.getFacilities);
 
-router.get('/reservations/:cust_id', AuthMiddleware.verifyToken, AdminActions.getReservationsById);
+router.get('/reservations/:cust_id', AuthMiddleware.verifyToken, AdminActionsController.getReservationsById);
 
-router.get('/bookings/', AuthMiddleware.verifyToken, AdminActions.getBookings);
+router.get('/bookings/', AuthMiddleware.verifyToken, AdminActionsController.getBookings);
 
 // Router POST
 router.post('/login', AdminController.adminLogin);
 
 router.post('/register', AdminController.adminRegister);
 
-router.post('/addnewroom', AuthMiddleware.verifyToken, AdminActions.addNewRoom);
+router.post('/addnewroom', AuthMiddleware.verifyToken, AdminActionsController.addNewRoom);
 
-router.post('/addfacility', AuthMiddleware.verifyToken, AdminActions.addFacility);
+router.post('/addfacility', AuthMiddleware.verifyToken, AdminActionsController.addFacility);
 
 // Router PUT
-router.put('/edithotel/:hotel_id', AuthMiddleware.verifyToken, AdminActions.editHotelById);
+router.put('/edithotel/:hotel_id', AuthMiddleware.verifyToken, AdminActionsController.editHotelById);
 
-router.put('/editroomscost/:type_id', AuthMiddleware.verifyToken, AdminActions.editRoomsCostById);
+router.put('/editroomscost/:type_id', AuthMiddleware.verifyToken, AdminActionsController.editRoomsCostById);
 
 export default router;
