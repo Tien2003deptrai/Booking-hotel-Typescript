@@ -11,7 +11,6 @@ class AdminController {
             const admin: _model.Admin = request.body;
             if (!admin.admin_email || !admin.admin_password) {
                 _config.sendResponseError(response, 'Not found email or password ...');
-                return;
             }
             const sql = 'SELECT * FROM admin WHERE admin_email = ?';
             const results = await _config.executeQuery(sql, [admin.admin_email]);
