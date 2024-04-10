@@ -2,7 +2,7 @@ import { QueryTypes } from "sequelize";
 import * as _model from '../models/config';
 import * as _config from "../config";
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken'
 class AdminService {
     async adminLogin(admin: _model.Admin): Promise<any> {
         try {

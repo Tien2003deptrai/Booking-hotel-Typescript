@@ -21,6 +21,10 @@ router.post('/login', AdminController.adminLogin);
 
 router.post('/register', AdminController.adminRegister);
 
+// Security token 
+router.post('/refresh_token', AdminController.refreshToken);
+
+
 router.post('/addnewroom', AuthMiddleware.verifyToken, AdminActionsController.addNewRoom);
 
 router.post('/addfacility', AuthMiddleware.verifyToken, AdminActionsController.addFacility);
