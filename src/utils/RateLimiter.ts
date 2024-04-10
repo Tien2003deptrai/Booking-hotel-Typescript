@@ -7,5 +7,3 @@ export const rateLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
 });
-
-export default rateLimiter;

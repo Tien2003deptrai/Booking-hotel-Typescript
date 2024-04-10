@@ -15,8 +15,9 @@ class AdminService {
                 const admin_exist = results[0];
                 const match = await bcrypt.compare(admin.admin_password, admin_exist.admin_password);
                 if (match) {
-                    const token = await _config.generateToken(admin_exist.admin_id);
-                    return { message: "Login successful", token: token };
+                    const token = await _config.generateTokenAccess(admin_exist.admin_id);
+                    const tokenRefresh = await _config.generateTokenRefresh(admin_exist.admin_id);
+                    return { message: "Login successful", token: token, tokenRefresh: tokenRefresh };
                 } else {
                     throw new Error("Invalid password");
                 }
