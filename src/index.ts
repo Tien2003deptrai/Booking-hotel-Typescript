@@ -5,8 +5,10 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import routers from './routers';
-import { connection } from './config/database';
 import expressListEndpoints from "express-list-endpoints";
+import helmet from 'helmet';
+import * as _config from "./config";
+import * as _utils from "./utils";
 
 const app = express();
 
@@ -18,6 +20,9 @@ app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(_utils.rateLimiter);
+
 app.use('/api/v1', routers());
 app.use(
     (
@@ -32,7 +37,7 @@ app.use(
     }
 )
 
-connection
+_config.connection
     .sync()
     .then(() => {
         console.log('Database successfully connected');
