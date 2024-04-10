@@ -23,4 +23,5 @@ export class Admin extends Model<Admin> {
 
     @BelongsTo(() => Hotel)
     hotel!: Hotel;
+
 }
