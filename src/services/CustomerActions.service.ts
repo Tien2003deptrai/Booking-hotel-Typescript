@@ -11,6 +11,11 @@ class CustomerActionsService {
         return await _config.executeQuery(sql);
     }
 
+    async getTopRoomFacilities(limit: number) {
+        const sql = 'SELECT * FROM facilities LIMIT ?';
+        return await _config.executeQuery(sql, [limit]);
+    }
+
     async getRoomDetailsByDate(start_date: string, end_date: string) {
         const sql = `
             SELECT 

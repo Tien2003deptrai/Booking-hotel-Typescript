@@ -10,6 +10,8 @@ router.get('/', AuthMiddleware.verifyToken, CustomerActionsController.getCustome
 
 router.get('/rooms/facilities', AuthMiddleware.verifyToken, CustomerActionsController.getRoomsFacilities);
 
+router.get('/rooms/top_facilities', CustomerActionsController.getTopRoomsFacilities);
+
 router.get('/rooms/details/:start_date/:end_date', AuthMiddleware.verifyToken, CustomerActionsController.getRoomsDetailByDate);
 
 router.get('/room/types', AuthMiddleware.verifyToken, CustomerActionsController.getRoomTypes);
