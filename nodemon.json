@@ -1,7 +1,9 @@
 {
     "watch": [
-        "src"
+        "src",
+        ".env",
+        "openApi"
     ],
-    "ext": ".ts,.js",
+    "ext": ".ts,.js,.yaml",
     "exec": "ts-node ./src/index.ts"
 }

@@ -6,6 +6,22 @@ import AdminActionsController from "../controllers/AdminActionsController";
 const router = Router();
 
 // Router GET
+/**
+ * @swagger
+ * /admin/login:
+ *   post:
+ *     summary: Admin login
+ *     description: Authenticate admin.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Login"
+ *     responses:
+ *       "200":
+ *         description: OK
+ */
 router.get('/hotel/details', AuthMiddleware.verifyToken, AdminActionsController.getHotelDetails);
 
 router.get('/room_types', AuthMiddleware.verifyToken, AdminActionsController.getRomeTypes);

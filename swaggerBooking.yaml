@@ -1,0 +1,336 @@
+openapi: 3.0.3
+info:
+  title: Booking Hotel - Typescript
+  description: |-
+    This is a sample Booking Hotel Server based on the OpenAPI 3.0 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
+    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
+    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
+
+    _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
+
+    Some useful links:
+    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
+    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:9000/api/v1
+tags:
+  - name: Admin
+    description: Everything about your Admin
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: Customer
+    description: Everything about your Customer
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+
+paths:
+  /admin/hotel/details:
+    get:
+      tags:
+        - Admin
+      summary: Get hotel details
+      description: Retrieve details of the hotel.
+      responses:
+        "200":
+          description: OK
+  /admin/room_types:
+    get:
+      tags:
+        - Admin
+      summary: Get room types
+      description: Retrieve available room types.
+      responses:
+        "200":
+          description: OK
+  /admin/facilities:
+    get:
+      tags:
+        - Admin
+      summary: Get facilities
+      description: Retrieve available facilities.
+      responses:
+        "200":
+          description: OK
+  /admin/reservations/{cust_id}:
+    get:
+      tags:
+        - Admin
+      summary: Get reservations by customer ID
+      description: Retrieve reservations by customer ID.
+      parameters:
+        - in: path
+          name: cust_id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+  /admin/bookings/:
+    get:
+      tags:
+        - Admin
+      summary: Get bookings
+      description: Retrieve bookings.
+      responses:
+        "200":
+          description: OK
+  /admin/login:
+    post:
+      tags:
+        - Admin
+      summary: Admin login
+      description: Authenticate admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        "200":
+          description: OK
+  /admin/register:
+    post:
+      tags:
+        - Admin
+      summary: Admin register
+      description: Register a new admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Register"
+      responses:
+        "200":
+          description: OK
+  /admin/refresh_token:
+    post:
+      tags:
+        - Admin
+      summary: Refresh token
+      description: Refresh authentication token.
+      responses:
+        "200":
+          description: OK
+  /admin/addnewroom:
+    post:
+      tags:
+        - Admin
+      summary: Add new room
+      description: Add a new room.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Room"
+      responses:
+        "200":
+          description: OK
+  /admin/addfacility:
+    post:
+      tags:
+        - Admin
+      summary: Add facility
+      description: Add a new facility.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Facility"
+      responses:
+        "200":
+          description: OK
+  /admin/edithotel/{hotel_id}:
+    put:
+      tags:
+        - Admin
+      summary: Edit hotel
+      description: Update hotel information by ID.
+      parameters:
+        - in: path
+          name: hotel_id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Hotel"
+      responses:
+        "200":
+          description: OK
+  /admin/editroomscost/{type_id}:
+    put:
+      tags:
+        - Admin
+      summary: Edit room cost
+      description: Update room cost by type ID.
+      parameters:
+        - in: path
+          name: type_id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomCost"
+      responses:
+        "200":
+          description: OK
+  /customer:
+    get:
+      tags:
+        - Customer
+      summary: Get customers
+      description: Retrieve customer information.
+      responses:
+        "200":
+          description: OK
+  /customer/rooms/facilities:
+    get:
+      tags:
+        - Customer
+      summary: Get room facilities
+      description: Retrieve available room facilities for customers.
+      responses:
+        "200":
+          description: OK
+  /customer/rooms/top_facilities:
+    get:
+      tags:
+        - Customer
+      summary: Get top room facilities
+      description: Retrieve top room facilities for customers.
+      responses:
+        "200":
+          description: OK
+  /customer/rooms/details/{start_date}/{end_date}:
+    get:
+      tags:
+        - Customer
+      summary: Get room details by date
+      description: Retrieve room details for a given date range.
+      parameters:
+        - in: path
+          name: start_date
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: path
+          name: end_date
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: OK
+  /customer/room/types:
+    get:
+      tags:
+        - Customer
+      summary: Get room types
+      description: Retrieve available room types for customers.
+      responses:
+        "200":
+          description: OK
+  /customer/login:
+    post:
+      tags:
+        - Customer
+      summary: Customer login
+      description: Authenticate customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        "200":
+          description: OK
+  /customer/register:
+    post:
+      tags:
+        - Customer
+      summary: Customer register
+      description: Register a new customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Register"
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Room:
+      type: object
+      properties:
+        type_id:
+          type: integer
+        name:
+          type: string
+    Facility:
+      type: object
+      properties:
+        facility_id:
+          type: integer
+        name:
+          type: string
+    Hotel:
+      type: object
+      properties:
+        hotel_id:
+          type: integer
+        name:
+          type: string
+    RoomCost:
+      type: object
+      properties:
+        type_id:
+          type: integer
+        cost:
+          type: number

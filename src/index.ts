@@ -7,6 +7,8 @@ import cors from 'cors';
 import routers from './routers';
 import expressListEndpoints from "express-list-endpoints";
 import helmet from 'helmet';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import * as _config from "./config";
 import * as _utils from "./utils";
 
@@ -22,7 +24,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(_utils.rateLimiter);
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Booking hotel (API)',
+            version: '1.0.0',
+        },
+    },
+    apis: ['./*.yaml'],
+};
+const openapiSpecification = swaggerJsdoc(options);
 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use('/api/v1', routers());
 app.use(
     (
